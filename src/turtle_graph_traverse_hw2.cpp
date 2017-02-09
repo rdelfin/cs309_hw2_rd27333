@@ -33,7 +33,12 @@ int main(int argc, char **argv){
     ros::Subscriber sub_pose = n.subscribe("/turtle1/pose", 1, pose_cb );
    
     //your code for solving the traveling salesmane problem goes here (of course you can define helper functions above the main function)
-    
+    ros::Rate r(10);
+    while(ros::ok()) {
+        ROS_INFO("This is an annoying message!");
+        r.sleep();
+        ros::spinOnce();
+    }
     
     return 0;
 }
