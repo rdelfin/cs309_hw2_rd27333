@@ -1,9 +1,13 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+#include "std_msgs/Int32.h"
 
 #include "geometry_msgs/Twist.h"
 
 #include "turtlesim/Pose.h"
+
+#include <stdlib.h>
+#include <time.h>
 
 //the constants contain the x and y coordinates that the turtle needs to visit
 #include <cs309_turtlesim/turtle_constants.h>
@@ -31,11 +35,17 @@ int main(int argc, char **argv){
 
     //subscriber for the turtle's pose
     ros::Subscriber sub_pose = n.subscribe("/turtle1/pose", 1, pose_cb );
+
+    ros::Publisher pub = n.advertise<std_msgs::Int32>("/rand", 1000);
+    srand(time(NULL));
    
     //your code for solving the traveling salesmane problem goes here (of course you can define helper functions above the main function)
     ros::Rate r(10);
     while(ros::ok()) {
         ROS_INFO("This is an annoying message!");
+        std_msgs::Int32 msg;
+        msg.data = rand() * RAND_MAX;
+        pub.publish(msg);
         r.sleep();
         ros::spinOnce();
     }
